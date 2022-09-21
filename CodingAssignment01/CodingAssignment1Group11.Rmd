@@ -3,16 +3,10 @@ title: "Coding Assignment 1"
 author: "Team 11"
 date: "Due: 2021-09-29 23:59"
 output:
-  word_document:
-    toc: yes
-    toc_depth: '2'
   html_document:
     toc: yes
     toc_depth: 2
     toc_float: yes
-  pdf_document:
-    toc: yes
-    toc_depth: '2'
 ---
 
 ```{r setup, include=FALSE}
@@ -122,6 +116,7 @@ Univariate Anaysis
 Age- Bimodal,Not Symmetrical, slightly skewed right
 BMI- Unimodal, Symmetrical, non skewed
 Children- Unimodal, Not Symmetrical, skewed to the right
+Charges - 
 
 # Question 2
 
@@ -150,6 +145,7 @@ Linear Relationship Between Variables:
 Age- Strong positive linear relationship
 BMI- Stronger, even more so than age, positive linear relationship
 Children- Strongest positive linear relationship amongst all variables included in analysis
+Charges - 
 
 All variables included in analysis have a strong positive linear relationship which makes sense as older individuals that weigh more and have more dependents are typically going to have higher healthcare cost than those individuals that are young, slim, and with no dependents. 
 
