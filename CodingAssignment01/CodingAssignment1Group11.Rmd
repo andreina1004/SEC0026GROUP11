@@ -128,6 +128,11 @@ Children- Unimodal, Not Symmetrical, skewed to the right
 Perform bivariate analyses on the quantitative variables (direction, strength and form). Describe the linear association between all variables. 
 
 ```{r q2, warning=FALSE}
+insurance$Smoker <- NULL
+insurance$WinterSprings <- NULL
+insurance$WinterPark <-NULL
+insurance$Oviedo <-NULL
+insurance$Female <- NULL
 
 cor(insurance)
 corrplot(cor(insurance),

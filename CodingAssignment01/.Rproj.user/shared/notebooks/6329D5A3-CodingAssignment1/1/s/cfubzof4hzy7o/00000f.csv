@@ -1,0 +1,3 @@
+"0","# Bring in the dataset here"
+"0","insurance <-read.csv(""../data/insurance_0026_group11.csv"")"
+"0",""

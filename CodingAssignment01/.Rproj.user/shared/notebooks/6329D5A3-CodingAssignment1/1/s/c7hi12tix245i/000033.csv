@@ -1,0 +1,4 @@
+"0",""
+"0","plot(insurance$Charges. insurance$Age insurance$BMI, insurance$Children)"
+"2","Error: unexpected symbol in ""plot(insurance$Charges. insurance""
+"
