@@ -15,13 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r packages}
 # Put any packages you want here
-library(readxl)
-library(dplyr) 
-library(gt) 
-library(gtsummary) 
-library(corrplot) 
-library(car) 
-library(jtools)
+
 ```
 
 
@@ -44,7 +38,7 @@ Answer the following questions using complete sentences and attach all output, p
 
 ```{r dataset, include=FALSE}
 # Bring in the dataset here
-insurance <- read.csv("../Data/insurance_0026_Group11.csv")
+
 
 ```
 
@@ -55,21 +49,6 @@ insurance <- read.csv("../Data/insurance_0026_Group11.csv")
 Perform univariate analyses on the quantitative variables (center, shape, spread). Include descriptive statistics, and histograms. Be sure to use terms discussed in class such as bimodal, skewed left, etc.
 
 ```{r q1}
-summary(insurance)
-sd(insurance$Charges)
-sd(insurance$Age)
-sd(insurance$BMI)
-sd(insurance$Children)
-cor(insurance)
-corrplot(cor(insurance),
-type = "lower",
-order = "hclust",
-tl.col = "black",
-tl.srt = 45,
-addCoef.col = "black",
-diag = FALSE)
-
-scatterplotMatrix(insurance)
 
 ```
 

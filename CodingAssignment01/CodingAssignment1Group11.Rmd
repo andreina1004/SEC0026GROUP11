@@ -1,12 +1,18 @@
 ---
 title: "Coding Assignment 1"
-author: "Team N"
+author: "Team 11"
 date: "Due: 2021-09-29 23:59"
-output: 
+output:
   html_document:
-    toc: true
+    toc: yes
     toc_depth: 2
-    toc_float: true
+    toc_float: yes
+  word_document:
+    toc: yes
+    toc_depth: '2'
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
 ---
 
 ```{r setup, include=FALSE}
@@ -22,6 +28,8 @@ library(gtsummary)
 library(corrplot) 
 library(car) 
 library(jtools)
+
+sessionInfo()
 ```
 
 
@@ -44,7 +52,8 @@ Answer the following questions using complete sentences and attach all output, p
 
 ```{r dataset, include=FALSE}
 # Bring in the dataset here
-insurance <- read.csv("../Data/insurance_0026_Group11.csv")
+insurance <- read.csv("../data/insurance_0026_group11.csv")
+
 
 ```
 
@@ -55,31 +64,89 @@ insurance <- read.csv("../Data/insurance_0026_Group11.csv")
 Perform univariate analyses on the quantitative variables (center, shape, spread). Include descriptive statistics, and histograms. Be sure to use terms discussed in class such as bimodal, skewed left, etc.
 
 ```{r q1}
-summary(insurance)
-sd(insurance$Charges)
-sd(insurance$Age)
-sd(insurance$BMI)
-sd(insurance$Children)
-cor(insurance)
-corrplot(cor(insurance),
+mean(insurancedata$Charges)
+
+median(insurancedata$Charges)
+
+hist(insurancedata$Charges)
+
+var(insurance$Charges)
+
+mean(insurancedata$Age)
+
+median(insurancedata$Age)
+
+hist(insurancedata$Age)
+
+var(insurance$Age)
+
+mean(insurancedata$BMI)
+
+median(insurancedata$BMI)
+
+hist(insurancedata$BMI)
+
+var(insurance$BMI)
+
+mean(insurancedata$Children)
+
+median(insurancedata$Children)
+
+hist(insurancedata$Children)
+
+var(insurance$Children)
+
+summary(insurancedata)
+
+sd(insurancedata$Charges)
+sd(insurancedata$Age)
+sd(insurancedata$BMI)
+sd(insurancedata$Children)
+
+getModes <- function(x) {
+ux <- unique(x)
+tab <- tabulate(match(x, ux))
+ux[tab == max(tab)]
+}
+
+getModes(insurancedata$Charges)
+getModes(insurancedata$Age)
+getModes(insurancedata$BMI)
+getModes(insurancedata$Children)
+
+
+
+```
+Univariate Anaysis
+
+Age- Bimodal,Not Symmetrical, slightly skewed right
+BMI- Unimodal, Symmetrical, non skewed
+Children- Unimodal, Not Symmetrical, skewed to the right
+
+# Question 2
+
+Perform bivariate analyses on the quantitative variables (direction, strength and form). Describe the linear association between all variables. 
+
+```{r q2, warning=FALSE}
+
+cor(insurancedata)
+corrplot(cor(insurancedata),
 type = "lower",
 order = "hclust",
 tl.col = "black",
 tl.srt = 45,
 addCoef.col = "black",
 diag = FALSE)
-
-scatterplotMatrix(insurance)
-
-```
-
-# Question 2
-
-Perform bivariate analyses on the quantitative variables (direction, strength and form). Describe the linear association between all variables. 
-
-```{r q2}
+scatterplotMatrix(insurancedata)
 
 ```
+Linear Relationship Between Variables:
+
+Age- Strong positive linear relationship
+BMI- Stronger, even more so than age, positive linear relationship
+Children- Strongest positive linear relationship amongst all variables included in analysis
+
+All variables included in analysis have a strong positive linear relationship which makes sense as older individuals that weigh more and have more dependents are typically going to have higher healthcare cost than those individuals that are young, slim, and with no dependents. 
 
 # Question 3
 
@@ -88,10 +155,14 @@ Generate a regression equation in the following form:
 $$Charges = \beta_{0}+\beta_{1}*Age+\beta_{2}*BMI+\beta_{3}*Children$$
 
 ```{r q3}
+model <- lm(Charges ~ Age + BMI + Children, data = insurancedata)
 
+summ(model)
 ```
 
 also write out the regression cleanly in this document.
+
+        Charges = -11700.62 + 272.66Age + 361.03BMI + 863.03Children
 
 # Question 4
 
@@ -99,5 +170,14 @@ An eager insurance representative comes back with a potential client. The client
 
 
 ```{r q4}
+newPrediction <- data.frame(Age = 40,
+                            BMI= 30,
+                            Children = 1)
+predict(model, newdata = newPrediction)
+
+predict(model, 
+        newdata = newPrediction, 
+        interval = "confidence",
+        level = .95)
 
 ```
