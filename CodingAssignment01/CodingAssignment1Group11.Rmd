@@ -62,7 +62,10 @@ mean(insurance$Charges)
 
 median(insurance$Charges)
 
-hist(insurance$Charges)
+hist(insurance$Charges, 
+     main = 'Histogram of Charges',
+     xlab = 'Charges',
+     ylab = 'Frequency')
 
 var(insurance$Charges)
 
@@ -70,7 +73,10 @@ mean(insurance$Age)
 
 median(insurance$Age)
 
-hist(insurance$Age)
+hist(insurance$Age, 
+     main = 'Histogram of Age',
+     xlab = 'Age',
+     ylab = 'Frequency')
 
 var(insurance$Age)
 
@@ -78,7 +84,10 @@ mean(insurance$BMI)
 
 median(insurance$BMI)
 
-hist(insurance$BMI)
+hist(insurance$BMI,
+     main = 'Histogram of BMI',
+     xlab = 'BMI',
+     ylab = 'Frequency')
 
 var(insurance$BMI)
 
@@ -86,7 +95,10 @@ mean(insurance$Children)
 
 median(insurance$Children)
 
-hist(insurance$Children)
+hist(insurance$Children,
+     main = 'Histogram of Children',
+     xlab = 'Children',
+     ylab = 'Frequency')
 
 var(insurance$Children)
 
@@ -113,10 +125,13 @@ getModes(insurance$Children)
 ```
 Univariate Anaysis
 
-Age- Bimodal,Not Symmetrical, slightly skewed right
-BMI- Unimodal, Symmetrical, non skewed
-Children- Unimodal, Not Symmetrical, skewed to the right
-Charges - 
+Charges - Unimodal, not symmetrical, positively skewed as the mean is greater than the median with a Standard Deviation of 9883.391.
+Age- Bimodal,Not Symmetrical, slightly skewed right with a Standard Deviation of 14.34906.
+BMI- Unimodal, Symmetrical, non skewed with a Standard Deviation of 6.233444.
+Children- Unimodal, Not Symmetrical, skewed to the right with a Standard Deviation of 1.20136.
+
+
+
 
 # Question 2
 
@@ -142,10 +157,11 @@ scatterplotMatrix(insurance)
 ```
 Linear Relationship Between Variables:
 
+Charges - Strong positive linear relationship
 Age- Strong positive linear relationship
 BMI- Stronger, even more so than age, positive linear relationship
 Children- Strongest positive linear relationship amongst all variables included in analysis
-Charges - 
+
 
 All variables included in analysis have a strong positive linear relationship which makes sense as older individuals that weigh more and have more dependents are typically going to have higher healthcare cost than those individuals that are young, slim, and with no dependents. 
 
@@ -182,3 +198,7 @@ predict(model,
         level = .95)
 
 ```
+
+
+
+Based on the new prediction, the medical expenses amount should not be lower than 8331.64 and not greater than 12467.54.
