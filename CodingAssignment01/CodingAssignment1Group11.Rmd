@@ -130,7 +130,7 @@ Age- Bimodal,Not Symmetrical, slightly skewed right with a Standard Deviation of
 BMI- Unimodal, Symmetrical, non skewed with a Standard Deviation of 6.233444.
 Children- Unimodal, Not Symmetrical, skewed to the right with a Standard Deviation of 1.20136.
 
-
+`included categorical variables in summary statistics (-1)`
 
 
 # Question 2
@@ -165,7 +165,7 @@ Children- Strongest positive linear relationship amongst all variables included 
 
 All variables included in analysis have a strong positive linear relationship which makes sense as older individuals that weigh more and have more dependents are typically going to have higher healthcare cost than those individuals that are young, slim, and with no dependents. 
 
-`Didn't provide values from correlations to substantiate claims (-3)`
+`What about relationships between independent variables (-3)`
 
 # Question 3
 
