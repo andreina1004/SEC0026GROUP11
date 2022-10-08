@@ -165,6 +165,8 @@ Children- Strongest positive linear relationship amongst all variables included 
 
 All variables included in analysis have a strong positive linear relationship which makes sense as older individuals that weigh more and have more dependents are typically going to have higher healthcare cost than those individuals that are young, slim, and with no dependents. 
 
+`Didn't provide values from correlations to substantiate claims (-3)`
+
 # Question 3
 
 Generate a regression equation in the following form:
