@@ -1,6 +1,6 @@
 ---
 title: "Coding Assignment 2"
-author: "Team N"
+author: "Team 11"
 date: "Due: 2021-10-23 23:59"
 output: 
   html_document:
@@ -29,7 +29,7 @@ Answer the following questions using complete sentences and attach all output, p
 
 
 ```{r dataset, include=FALSE}
-insurance <- read.csv("../Data/insurance_0026_Group1.csv")
+insurance <- read.csv("../Data/insurance_0026_Group11.csv")
 ```
 
 
@@ -41,17 +41,30 @@ Generate this regression equation:
 $$Charges = \beta_{0}+\beta_{1}*Age+\beta_{2}*BMI+\beta_{3}*Children + \beta_{4}*Female + \beta_{5}*Smoker + \beta_{6}*WinterSprings + \beta_{7}*WinterPark + \beta_{8}*Oviedo$$
 
 ```{r q1}
+model <- lm(Charges ~ Age + BMI + Children + Female + Smoker + WinterSprings + WinterPark + Oviedo, data = insurance)
+
+summary(model)
 
 ```
 
+Charges = -11700.62 + 272.66Age + 361.03BMI + 863.03Children -734.6Female + 24518.3Smoker +339.0 WinterSprings -3507.3WinterPark -857.5 Oviedo
+
 Which independent variables test significant in a two-tailed test? Use $\alpha = 0.2$
 
+At the alpha = .2 level 
 
+These Test as Significant:
+Age with a 0.00368 p-value, p-value is < alpha therefore we reject the null. 
+BMI with a 0.08597 p-value 
+
+These do NOT test as significant
+Children with a p-value of 0.42219, p- value is > alpha therefor we can not reject the null. 
 
 ## Question 2
 
 Interpret the coefficients of all the independent variables that tested significant.
 
+Interpret = point value and MOE for each variable
 
 ## Question 3
 
@@ -67,14 +80,40 @@ The insurance agent returns with another client:
 Using the regression equation above, predict the amount of medical expenses associated with this policy. (Provide a 95% confidence interval as well)
 
 ```{r q3}
+newPrediction <- data.frame(Age = 35,
+                            BMI= 26,
+                            Children =1,
+                            Female= 1,
+                            Smoker= 0,
+                            WinterSprings= 0,
+                            WinterPark= 0,
+                            Oviedo= 0)
 
+                
+predict(model, newdata = newPrediction)
+
+predict(model, 
+        newdata = newPrediction, 
+        interval = "confidence",
+        level = .95)
 ```
+
+This new client would likely use $6377 in medical expenses plus or minus $3326.
 
 ## Question 4
 
 Compare the model from question 1, to a model that does not include the group of city dummies. Does including the cities reduce the SSE by a statistically significant amount? (check the partial F-test for significance of the dummies as a group). Use $\alpha = 0.05$
 
 ```{r q4}
+model2 <- lm(Charges ~ Age + BMI + Children + Female + Smoker, data = insurance)
+
+summary(model2)
+
+regsummary <- summary(model)
+
+regsummary$fstatistic 
+
+anova(model2, model)
 
 ```
 
