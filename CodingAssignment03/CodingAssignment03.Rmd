@@ -1,6 +1,6 @@
 ---
 title: "Coding Assignment 3"
-author: "Team N"
+author: "Team 11"
 date: "Due: 2021-12-09 23:59"
 output: 
   html_document:
@@ -10,6 +10,14 @@ output:
 
 ```{r setup, include=FALSE}
 #Put any packages you need here
+library(readxl)
+library(dplyr) # for pipe operator
+library(gt) # for fancier tables
+library(gtsummary) # for fancier summary statistics
+library(corrplot) # for fancier correlations
+library(car) # for easier scatterplots
+library(jtools) # for fancier regression output
+
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -29,6 +37,8 @@ Answer the following questions using complete sentences and attach all output, p
 
 
 ```{r dataset, include=FALSE}
+insurance <- read.csv("../Data/insurance_0026_Group11.csv")
+
 # Bring in the dataset here.
 ```
 
@@ -39,7 +49,19 @@ Answer the following questions using complete sentences and attach all output, p
 Randomly select three observations from the sample and exclude from all modeling (i.e. n=47). Provide the summary statistics (min, max, std, mean, median) of the quantitative variables for the 47 observations.
 
 ```{r q1}
+set.seed(123457)
+index <- sample(seq_len(nrow(insurance)), size = 3)
 
+train <- insurance[-index,]
+test <- insurance[index,]
+
+train %>% 
+  tbl_summary(statistic = list(all_continuous() ~ c("{mean} ({sd})",
+                                                    "{median} ({p25}, {p75})",
+                                                    "{min}, {max}"),
+                              all_categorical() ~ "{n} / {N} ({p}%)"),
+              type = all_continuous() ~ "continuous2"
+  )
 
 ```
 
@@ -49,6 +71,9 @@ Randomly select three observations from the sample and exclude from all modeling
 Provide the correlation between all quantitative variables
 
 ```{r}
+scatterplotMatrix(train[,c(1,2,3,5)]) 
+
+
 
 ```
 
@@ -63,7 +88,38 @@ Run a regression that includes all independent variables in the data table. Does
 Implement the solutions from question 3, such as data transformation, along with any other changes you wish. Use the sample data and run a new regression. How have the fit measures changed? How have the signs and significance of the coefficients changed?
 
 ```{r q3}
+par(mfrow=c(1,2))
+hist(train$Charges) #before
 
+train$lnCharges <- log(train$Charges)
+
+hist(train$lnCharges) #after
+
+train$lnChildren <- log(train$Children)
+
+scatterplotMatrix(train[,c(1,2,3,5)]) 
+
+model_1 <- lm(train$lnCharges ~., data = train[,c(2,3,5,10)] )
+
+summary(model_1)
+
+tbl_regression(model_1,
+               estimate_fun =  ~style_sigfig(.x, digits = 4)) %>% as_gt() %>%
+  gt::tab_source_note(gt::md(paste0("Adjusted R-Squared: ",round(summary(model_1)$adj.r.squared* 100,digits = 2),"%")))
+
+par(mfrow=c(2,2))
+plot(model_1)
+
+model_2 <- lm(train$lnChildren ~., data = train[,c(2,3,5,11)] )
+
+summary(model_2)
+
+tbl_regression(model_2,
+               estimate_fun =  ~style_sigfig(.x, digits = 4)) %>% as_gt() %>%
+  gt::tab_source_note(gt::md(paste0("Adjusted R-Squared: ",round(summary(model_1)$adj.r.squared* 100,digits = 2),"%")))
+
+par(mfrow=c(2,2))
+plot(model_2)
 ```
 
 ## Question 5
@@ -72,6 +128,9 @@ Use the 3 withheld observations and calculate the performance measures for your 
 
 ```{r q4}
 
+
+
+```
 ```
 
 

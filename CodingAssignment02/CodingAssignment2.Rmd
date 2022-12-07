@@ -47,24 +47,34 @@ summary(model)
 
 ```
 
-Charges = -11700.62 + 272.66Age + 361.03BMI + 863.03Children -734.6Female + 24518.3Smoker +339.0 WinterSprings -3507.3WinterPark -857.5 Oviedo
+Charges = -11700.62 + 272.66Age + 361.03BMI + 863.03Children -734.6Female + 24518.3Smoker +339.0 WinterSprings -3507.3WinterPark -857.5Oviedo
 
 Which independent variables test significant in a two-tailed test? Use $\alpha = 0.2$
 
 At the alpha = .2 level 
 
 These Test as Significant:
-Age with a 0.00368 p-value, p-value is < alpha therefore we reject the null. 
-BMI with a 0.08597 p-value 
+Age (p-value=2.52e-05), BMI (p-value=0.00605), Children (p-value=0.11833), Smoker (p-value=1.08e-12 ), and Winter Park (p-value= 0.06916) all have a p-value that is less than alpha=0.2 therefore we reject the null and these independent variables are significant. 
+
 
 These do NOT test as significant
-Children with a p-value of 0.42219, p- value is > alpha therefor we can not reject the null. 
+Female (p-value= 0.62870 ), Winter Springs (p-value=0.86291 ) and Oviedo (p-value=0.69141) all have a p- value that is greater than alpha=0.2 therefore we can not reject the null and these independent variables are not significant. 
 
 ## Question 2
 
 Interpret the coefficients of all the independent variables that tested significant.
 
-Interpret = point value and MOE for each variable
+Based on our alpha = 0.2 these values tested significant and their respective margin of error with an 80% confidence interval for the impact on the insurance premiums are as described below. 
+
+Age increase premiums 231.6 per year of age. The margin of error for this variable is +/- 1.3(48.8) or +/-63.44.
+
+BMI increase premiums 332.5 per one point increase in BMI. The margin of error for this variable is +/- 1.3 (114.8) or +/- 149.24.
+
+Children increase premiums 1010.3 per each additional dependent. The margin of error for this variable is+/- 1.3 (633.3) or +/- 823.29.
+
+Winter Park decreases premiums -3507.3 based on location. The margin of error for this variable is +/- 1.3 (1879.2) or +/- 2255.04.
+
+
 
 ## Question 3
 
@@ -98,13 +108,19 @@ predict(model,
         level = .95)
 ```
 
-This new client would likely use $6377 in medical expenses plus or minus $3326.
+Based on this data we are 95% confident that the new client applying for coverage would likely use $6377 in medical expenses plus or minus $3326.
 
 ## Question 4
 
 Compare the model from question 1, to a model that does not include the group of city dummies. Does including the cities reduce the SSE by a statistically significant amount? (check the partial F-test for significance of the dummies as a group). Use $\alpha = 0.05$
 
 ```{r q4}
+charges_reduced <- insurance[, -(7:9)] # drops last 3 columns
+
+model_reduced <- lm(Charges ~. , data = charges_reduced)
+
+summary(model_reduced)
+
 model2 <- lm(Charges ~ Age + BMI + Children + Female + Smoker, data = insurance)
 
 summary(model2)
@@ -117,4 +133,4 @@ anova(model2, model)
 
 ```
 
-
+The F-statistic for the partial is 30.95 on 5 explanatory variables and has 44 Degrees of Freedom. The model that contains all the variables has an F-statistic of 20.6 on all 8 explanatory variables and 41 Degrees of Freedom. In this instances the partial F is greater than the original models F statistic which means that the group of variables in the partial F-test are significant. 

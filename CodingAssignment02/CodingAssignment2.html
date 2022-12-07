@@ -1576,20 +1576,35 @@ summary(model)</code></pre>
 ## F-statistic:  20.6 on 8 and 41 DF,  p-value: 4.359e-12</code></pre>
 <p>Charges = -11700.62 + 272.66Age + 361.03BMI + 863.03Children
 -734.6Female + 24518.3Smoker +339.0 WinterSprings -3507.3WinterPark
--857.5 Oviedo</p>
+-857.5Oviedo</p>
 <p>Which independent variables test significant in a two-tailed test?
 Use <span class="math inline">\(\alpha = 0.2\)</span></p>
 <p>At the alpha = .2 level</p>
-<p>These Test as Significant: Age with a 0.00368 p-value, p-value is
-&lt; alpha therefore we reject the null. BMI with a 0.08597 p-value</p>
-<p>These do NOT test as significant Children with a p-value of 0.42219,
-p- value is &gt; alpha therefor we can not reject the null.</p>
+<p>These Test as Significant: Age (p-value=2.52e-05), BMI
+(p-value=0.00605), Children (p-value=0.11833), Smoker (p-value=1.08e-12
+), and Winter Park (p-value= 0.06916) all have a p-value that is less
+than alpha=0.2 therefore we reject the null and these independent
+variables are significant.</p>
+<p>These do NOT test as significant Female (p-value= 0.62870 ), Winter
+Springs (p-value=0.86291 ) and Oviedo (p-value=0.69141) all have a p-
+value that is greater than alpha=0.2 therefore we can not reject the
+null and these independent variables are not significant.</p>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
 <p>Interpret the coefficients of all the independent variables that
 tested significant.</p>
-<p>Interpret = point value and MOE for each variable</p>
+<p>Based on our alpha = 0.2 these values tested significant and their
+respective margin of error with an 80% confidence interval for the
+impact on the insurance premiums are as described below.</p>
+<p>Age increase premiums 231.6 per year of age. The margin of error for
+this variable is +/- 1.3(48.8) or +/-63.44.</p>
+<p>BMI increase premiums 332.5 per one point increase in BMI. The margin
+of error for this variable is +/- 1.3 (114.8) or +/- 149.24.</p>
+<p>Children increase premiums 1010.3 per each additional dependent. The
+margin of error for this variable is+/- 1.3 (633.3) or +/- 823.29.</p>
+<p>Winter Park decreases premiums -3507.3 based on location. The margin
+of error for this variable is +/- 1.3 (1879.2) or +/- 2255.04.</p>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
@@ -1624,8 +1639,9 @@ predict(model, newdata = newPrediction)</code></pre>
         level = .95)</code></pre>
 <pre><code>##        fit     lwr      upr
 ## 1 6376.658 3049.91 9703.405</code></pre>
-<p>This new client would likely use $6377 in medical expenses plus or
-minus $3326.</p>
+<p>Based on this data we are 95% confident that the new client applying
+for coverage would likely use $6377 in medical expenses plus or minus
+$3326.</p>
 </div>
 <div id="question-4" class="section level2">
 <h2>Question 4</h2>
@@ -1633,6 +1649,33 @@ minus $3326.</p>
 the group of city dummies. Does including the cities reduce the SSE by a
 statistically significant amount? (check the partial F-test for
 significance of the dummies as a group). Use <span class="math inline">\(\alpha = 0.05\)</span></p>
+<pre class="r"><code>charges_reduced &lt;- insurance[, -(7:9)] # drops last 3 columns
+
+model_reduced &lt;- lm(Charges ~. , data = charges_reduced)
+
+summary(model_reduced)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Charges ~ ., data = charges_reduced)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10654.3  -2444.5   -853.4   1350.3  13267.5 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -11140.56    3927.98  -2.836  0.00688 ** 
+## Age            236.47      49.17   4.809 1.80e-05 ***
+## BMI            315.62     113.41   2.783  0.00791 ** 
+## Female        -789.56    1464.53  -0.539  0.59252    
+## Children      1079.02     601.97   1.792  0.07993 .  
+## Smoker       23861.27    2391.55   9.977 7.17e-13 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4907 on 44 degrees of freedom
+## Multiple R-squared:  0.7786, Adjusted R-squared:  0.7535 
+## F-statistic: 30.95 on 5 and 44 DF,  p-value: 2.31e-13</code></pre>
 <pre class="r"><code>model2 &lt;- lm(Charges ~ Age + BMI + Children + Female + Smoker, data = insurance)
 
 summary(model2)</code></pre>
@@ -1673,6 +1716,12 @@ regsummary$fstatistic </code></pre>
 ##   Res.Df        RSS Df Sum of Sq    F Pr(&gt;F)
 ## 1     44 1059575650                         
 ## 2     41  953524665  3 106050986 1.52 0.2237</code></pre>
+<p>The F-statistic for the partial is 30.95 on 5 explanatory variables
+and has 44 Degrees of Freedom. The model that contains all the variables
+has an F-statistic of 20.6 on all 8 explanatory variables and 41 Degrees
+of Freedom. In this instances the partial F is greater than the original
+models F statistic which means that the group of variables in the
+partial F-test are significant.</p>
 </div>
 
 
