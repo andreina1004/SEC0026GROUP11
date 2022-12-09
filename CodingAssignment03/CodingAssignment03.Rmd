@@ -17,8 +17,9 @@ library(gtsummary) # for fancier summary statistics
 library(corrplot) # for fancier correlations
 library(car) # for easier scatterplots
 library(jtools) # for fancier regression output
+library(plotly)
 
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 ```
 
 A Florida health insurance company wants to predict annual claims for individual clients. The company pulls a random sample of 50 customers. The owner wishes to charge an actuarially fair premium to ensure a normal rate of return. The owner collects all of their current customer’s health care expenses from the last year and compares them with what is known about each customer’s plan. 
@@ -50,10 +51,15 @@ Randomly select three observations from the sample and exclude from all modeling
 
 ```{r q1}
 set.seed(123457)
-index <- sample(seq_len(nrow(insurance)), size = 3)
-
+index <- sample(seq_len(nrow(insurance)), size = 10)
 train <- insurance[-index,]
 test <- insurance[index,]
+
+insuranceremove3 <- insurance[-sample(1:nrow(insurance), 3), ]
+sd(removequalitative1$Charges, na.rm = TRUE)
+sd(removequalitative1$Age, na.rm = TRUE)
+sd(removequalitative1$BMI, na.rm = TRUE)
+sd(removequalitative1$Children, na.rm = TRUE)
 
 train %>% 
   tbl_summary(statistic = list(all_continuous() ~ c("{mean} ({sd})",
@@ -64,30 +70,36 @@ train %>%
   )
 
 ```
-
+By randomly removing three observations from the model the data shown above was derived. The Standard Deviations for Charges, Age, BMI, and Children are as follows $10,054.95, 14.04749 years, 6.376525, 1.185403.
 
 ## Question 2
 
 Provide the correlation between all quantitative variables
 
 ```{r}
-scatterplotMatrix(train[,c(1,2,3,5)]) 
+cor(removequalitative1)
+
+corrplot(cor(removequalitative1),
+type = "lower",
+order = "hclust",
+tl.col = "black",
+tl.srt = 45,
+addCoef.col = "black",
+diag = FALSE)
 
 
 
 ```
-
+The quantitave variables are Charges, Age, BMI, Children. The correlation between all quantitative variables is shown above. Based on the data above, Age is positvely correlated to Charges. As well as, BMI and Charges, Children and Charges....
 
 ## Question 3
 
 Run a regression that includes all independent variables in the data table. Does the model above violate any of the Gauss-Markov assumptions? If so, what are they and what is the solution for correcting?
 
+```{r}
+model <- lm(Charges~ Age + BMI + Female + Children + Smoker +WinterSprings + WinterPark + Oviedo, data = insuranceremove3)
+summary(model)
 
-## Question 4
-
-Implement the solutions from question 3, such as data transformation, along with any other changes you wish. Use the sample data and run a new regression. How have the fit measures changed? How have the signs and significance of the coefficients changed?
-
-```{r q3}
 par(mfrow=c(1,2))
 hist(train$Charges) #before
 
@@ -98,6 +110,13 @@ hist(train$lnCharges) #after
 train$lnChildren <- log(train$Children)
 
 scatterplotMatrix(train[,c(1,2,3,5)]) 
+```
+
+## Question 4
+
+Implement the solutions from question 3, such as data transformation, along with any other changes you wish. Use the sample data and run a new regression. How have the fit measures changed? How have the signs and significance of the coefficients changed?
+
+```{r q3}
 
 model_1 <- lm(train$lnCharges ~., data = train[,c(2,3,5,10)] )
 
