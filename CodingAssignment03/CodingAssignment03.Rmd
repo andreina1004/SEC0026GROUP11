@@ -3,11 +3,11 @@ title: "Coding Assignment 3"
 author: "Team 11"
 date: "Due: 2021-12-09 23:59"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     toc: yes
     toc_float: yes
+  pdf_document:
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -222,60 +222,9 @@ mape(test$errormodel_1, test$Charges)
 
 mape(test$errormodel_2, test$Age)
 
-potential1 <- data.frame(Age = 60,
-                            BMI = 22,
-                            Children = 0,
-                            Female = 1,
-                            Smoker = 0,
-                            WinterSprings = 0,
-                            WinterPark = 0,
-                            Oviedo = 1)
-potential2 <- data.frame(Age = 40,
-                            BMI = 30,
-                            Children = 1,
-                            Female = 0,
-                            Smoker = 0,
-                            WinterSprings = 0,
-                            WinterPark = 0,
-                            Oviedo = 0)
-potential3 <- data.frame(Age = 25,
-                            BMI = 25,
-                            Children = 0,
-                            Female = 0,
-                            Smoker = 1,
-                            WinterSprings = 0,
-                            WinterPark = 1,
-                            Oviedo = 0)
-potential4 <- data.frame(Age = 33,
-                            BMI = 35,
-                            Children = 2,
-                            Female = 1,
-                            Smoker = 0,
-                            WinterSprings = 1,
-                            WinterPark = 0,
-                            Oviedo = 0)
-potential5 <- data.frame(Age = 45,
-                            BMI = 27,
-                            Children = 3,
-                            Female = 1,
-                            Smoker = 0,
-                            WinterSprings = 0,
-                            WinterPark = 0,
-                            Oviedo = 1)
-
-predict(model_2, newdata = potential1, interval = 'prediction')
-
-predict(model_2, newdata = potential2, interval = 'prediction')
-
-predict(model_2, newdata = potential3, interval = 'prediction')
-
-predict(model_2, newdata = potential4, interval = 'prediction')
-
-predict(model_2, newdata = potential5, interval = 'prediction')
-
 ```
-```
-# Based on our calculations, model_2 is the better performing model. Comparing the two models, Model_2 has a slightly lower mean, MAE, RMSE. However, the MAPE is significantly larger which does not support model_2.
+
+Based on our calculations, model_2 is the better performing model. Comparing the two models, Model_2 has a slightly lower mean, MAE, RMSE. However, the MAPE is significantly larger which does not support model_2.
 
 ## Question 6
 
@@ -352,23 +301,11 @@ predict(model_2, newdata = potential5, interval = 'prediction')
 
 ```
 
-       fit     lwr      upr
-1 4.171419 4.02813 4.314709
-       fit      lwr      upr
-1 3.612978 3.477785 3.748172
-       fit      lwr      upr
-1 3.204361 3.066025 3.342697
-       fit     lwr      upr
-1 3.415488 3.27815 3.552825
-       fit      lwr      upr
-1 3.753567 3.614209 3.892924
-
-
 ## Question 8
 
 The owner notices that some of the predictions are wider than others, explain why.
 
-# By looking at the prediction values used in the model the values are outside the normal mean used to test the model therefore, the values would be outside what we expect potentially causing a wider prediction interval.
+By looking at the prediction values used in the model the values are outside the normal mean used to test the model therefore, the values would be outside what we expect potentially causing a wider prediction interval.
 
 If predictions vary very widely it could be due to issues with model specification bias or not including the qualitative data when devising a model therefore the values included when predicting the models will not be as efficient.
 
